@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ArmyTechApplicantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Applicant">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="EMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="GenderId" Type="int" />
+        </EntityType>
+        <EntityType Name="ApplicantApplicationsField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicantId" Type="int" />
+          <Property Name="ApplicationsFieldId" Type="int" />
+        </EntityType>
+        <EntityType Name="ApplicantQualification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ApplicantId" Type="int" />
+          <Property Name="CertificationTypeId" Type="int" />
+          <Property Name="CertificationSpecificId" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ApplicationsField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CertificationSpecific">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="CertificationTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="CertificationType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Applicant_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Applicant">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantApplicationsField_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1" />
+          <End Role="ApplicantApplicationsField" Type="Self.ApplicantApplicationsField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantApplicationsField">
+              <PropertyRef Name="ApplicantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantApplicationsField_ApplicationsField">
+          <End Role="ApplicationsField" Type="Self.ApplicationsField" Multiplicity="0..1" />
+          <End Role="ApplicantApplicationsField" Type="Self.ApplicantApplicationsField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationsField">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantApplicationsField">
+              <PropertyRef Name="ApplicationsFieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantQualification_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1" />
+          <End Role="ApplicantQualification" Type="Self.ApplicantQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantQualification">
+              <PropertyRef Name="ApplicantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantQualification_CertificationSpecific">
+          <End Role="CertificationSpecific" Type="Self.CertificationSpecific" Multiplicity="0..1" />
+          <End Role="ApplicantQualification" Type="Self.ApplicantQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationSpecific">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantQualification">
+              <PropertyRef Name="CertificationSpecificId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantQualification_CertificationType">
+          <End Role="CertificationType" Type="Self.CertificationType" Multiplicity="0..1" />
+          <End Role="ApplicantQualification" Type="Self.ApplicantQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantQualification">
+              <PropertyRef Name="CertificationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificationSpecific_CertificationType">
+          <End Role="CertificationType" Type="Self.CertificationType" Multiplicity="0..1" />
+          <End Role="CertificationSpecific" Type="Self.CertificationSpecific" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CertificationSpecific">
+              <PropertyRef Name="CertificationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ArmyTechApplicantModelStoreContainer">
+          <EntitySet Name="Applicant" EntityType="Self.Applicant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicantApplicationsField" EntityType="Self.ApplicantApplicationsField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicantQualification" EntityType="Self.ApplicantQualification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationsField" EntityType="Self.ApplicationsField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CertificationSpecific" EntityType="Self.CertificationSpecific" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CertificationType" EntityType="Self.CertificationType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Applicant_Gender" Association="Self.FK_Applicant_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Applicant" EntitySet="Applicant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantApplicationsField_Applicant" Association="Self.FK_ApplicantApplicationsField_Applicant">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="ApplicantApplicationsField" EntitySet="ApplicantApplicationsField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantApplicationsField_ApplicationsField" Association="Self.FK_ApplicantApplicationsField_ApplicationsField">
+            <End Role="ApplicationsField" EntitySet="ApplicationsField" />
+            <End Role="ApplicantApplicationsField" EntitySet="ApplicantApplicationsField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantQualification_Applicant" Association="Self.FK_ApplicantQualification_Applicant">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="ApplicantQualification" EntitySet="ApplicantQualification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantQualification_CertificationSpecific" Association="Self.FK_ApplicantQualification_CertificationSpecific">
+            <End Role="CertificationSpecific" EntitySet="CertificationSpecific" />
+            <End Role="ApplicantQualification" EntitySet="ApplicantQualification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantQualification_CertificationType" Association="Self.FK_ApplicantQualification_CertificationType">
+            <End Role="CertificationType" EntitySet="CertificationType" />
+            <End Role="ApplicantQualification" EntitySet="ApplicantQualification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificationSpecific_CertificationType" Association="Self.FK_CertificationSpecific_CertificationType">
+            <End Role="CertificationType" EntitySet="CertificationType" />
+            <End Role="CertificationSpecific" EntitySet="CertificationSpecific" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ArmyTechApplicantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Applicant">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GenderId" Type="Int32" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK_Applicant_Gender" FromRole="Applicant" ToRole="Gender" />
+          <NavigationProperty Name="ApplicantApplicationsFields" Relationship="Self.FK_ApplicantApplicationsField_Applicant" FromRole="Applicant" ToRole="ApplicantApplicationsField" />
+          <NavigationProperty Name="ApplicantQualifications" Relationship="Self.FK_ApplicantQualification_Applicant" FromRole="Applicant" ToRole="ApplicantQualification" />
+        </EntityType>
+        <EntityType Name="ApplicantApplicationsField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicantId" Type="Int32" />
+          <Property Name="ApplicationsFieldId" Type="Int32" />
+          <NavigationProperty Name="Applicant" Relationship="Self.FK_ApplicantApplicationsField_Applicant" FromRole="ApplicantApplicationsField" ToRole="Applicant" />
+          <NavigationProperty Name="ApplicationsField" Relationship="Self.FK_ApplicantApplicationsField_ApplicationsField" FromRole="ApplicantApplicationsField" ToRole="ApplicationsField" />
+        </EntityType>
+        <EntityType Name="ApplicantQualification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicantId" Type="Int32" />
+          <Property Name="CertificationTypeId" Type="Int32" />
+          <Property Name="CertificationSpecificId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Applicant" Relationship="Self.FK_ApplicantQualification_Applicant" FromRole="ApplicantQualification" ToRole="Applicant" />
+          <NavigationProperty Name="CertificationSpecific" Relationship="Self.FK_ApplicantQualification_CertificationSpecific" FromRole="ApplicantQualification" ToRole="CertificationSpecific" />
+          <NavigationProperty Name="CertificationType" Relationship="Self.FK_ApplicantQualification_CertificationType" FromRole="ApplicantQualification" ToRole="CertificationType" />
+        </EntityType>
+        <EntityType Name="ApplicationsField">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicantApplicationsFields" Relationship="Self.FK_ApplicantApplicationsField_ApplicationsField" FromRole="ApplicationsField" ToRole="ApplicantApplicationsField" />
+        </EntityType>
+        <EntityType Name="CertificationSpecific">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CertificationTypeID" Type="Int32" />
+          <NavigationProperty Name="ApplicantQualifications" Relationship="Self.FK_ApplicantQualification_CertificationSpecific" FromRole="CertificationSpecific" ToRole="ApplicantQualification" />
+          <NavigationProperty Name="CertificationType" Relationship="Self.FK_CertificationSpecific_CertificationType" FromRole="CertificationSpecific" ToRole="CertificationType" />
+        </EntityType>
+        <EntityType Name="CertificationType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicantQualifications" Relationship="Self.FK_ApplicantQualification_CertificationType" FromRole="CertificationType" ToRole="ApplicantQualification" />
+          <NavigationProperty Name="CertificationSpecifics" Relationship="Self.FK_CertificationSpecific_CertificationType" FromRole="CertificationType" ToRole="CertificationSpecific" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Applicants" Relationship="Self.FK_Applicant_Gender" FromRole="Gender" ToRole="Applicant" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Applicant_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Applicant">
+              <PropertyRef Name="GenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantApplicationsField_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1" />
+          <End Role="ApplicantApplicationsField" Type="Self.ApplicantApplicationsField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantApplicationsField">
+              <PropertyRef Name="ApplicantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantQualification_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="0..1" />
+          <End Role="ApplicantQualification" Type="Self.ApplicantQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantQualification">
+              <PropertyRef Name="ApplicantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantApplicationsField_ApplicationsField">
+          <End Role="ApplicationsField" Type="Self.ApplicationsField" Multiplicity="0..1" />
+          <End Role="ApplicantApplicationsField" Type="Self.ApplicantApplicationsField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationsField">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantApplicationsField">
+              <PropertyRef Name="ApplicationsFieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantQualification_CertificationSpecific">
+          <End Role="CertificationSpecific" Type="Self.CertificationSpecific" Multiplicity="0..1" />
+          <End Role="ApplicantQualification" Type="Self.ApplicantQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationSpecific">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantQualification">
+              <PropertyRef Name="CertificationSpecificId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantQualification_CertificationType">
+          <End Role="CertificationType" Type="Self.CertificationType" Multiplicity="0..1" />
+          <End Role="ApplicantQualification" Type="Self.ApplicantQualification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicantQualification">
+              <PropertyRef Name="CertificationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificationSpecific_CertificationType">
+          <End Role="CertificationType" Type="Self.CertificationType" Multiplicity="0..1" />
+          <End Role="CertificationSpecific" Type="Self.CertificationSpecific" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CertificationType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CertificationSpecific">
+              <PropertyRef Name="CertificationTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ArmyTechApplicantEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applicants" EntityType="Self.Applicant" />
+          <EntitySet Name="ApplicantApplicationsFields" EntityType="Self.ApplicantApplicationsField" />
+          <EntitySet Name="ApplicantQualifications" EntityType="Self.ApplicantQualification" />
+          <EntitySet Name="ApplicationsFields" EntityType="Self.ApplicationsField" />
+          <EntitySet Name="CertificationSpecifics" EntityType="Self.CertificationSpecific" />
+          <EntitySet Name="CertificationTypes" EntityType="Self.CertificationType" />
+          <EntitySet Name="Genders" EntityType="Self.Gender" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Applicant_Gender" Association="Self.FK_Applicant_Gender">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="Applicant" EntitySet="Applicants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantApplicationsField_Applicant" Association="Self.FK_ApplicantApplicationsField_Applicant">
+            <End Role="Applicant" EntitySet="Applicants" />
+            <End Role="ApplicantApplicationsField" EntitySet="ApplicantApplicationsFields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantQualification_Applicant" Association="Self.FK_ApplicantQualification_Applicant">
+            <End Role="Applicant" EntitySet="Applicants" />
+            <End Role="ApplicantQualification" EntitySet="ApplicantQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantApplicationsField_ApplicationsField" Association="Self.FK_ApplicantApplicationsField_ApplicationsField">
+            <End Role="ApplicationsField" EntitySet="ApplicationsFields" />
+            <End Role="ApplicantApplicationsField" EntitySet="ApplicantApplicationsFields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantQualification_CertificationSpecific" Association="Self.FK_ApplicantQualification_CertificationSpecific">
+            <End Role="CertificationSpecific" EntitySet="CertificationSpecifics" />
+            <End Role="ApplicantQualification" EntitySet="ApplicantQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantQualification_CertificationType" Association="Self.FK_ApplicantQualification_CertificationType">
+            <End Role="CertificationType" EntitySet="CertificationTypes" />
+            <End Role="ApplicantQualification" EntitySet="ApplicantQualifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificationSpecific_CertificationType" Association="Self.FK_CertificationSpecific_CertificationType">
+            <End Role="CertificationType" EntitySet="CertificationTypes" />
+            <End Role="CertificationSpecific" EntitySet="CertificationSpecifics" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ArmyTechApplicantModelStoreContainer" CdmEntityContainer="ArmyTechApplicantEntities">
+          <EntitySetMapping Name="Applicants">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.Applicant">
+              <MappingFragment StoreEntitySet="Applicant">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicantApplicationsFields">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.ApplicantApplicationsField">
+              <MappingFragment StoreEntitySet="ApplicantApplicationsField">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ApplicantId" ColumnName="ApplicantId" />
+                <ScalarProperty Name="ApplicationsFieldId" ColumnName="ApplicationsFieldId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicantQualifications">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.ApplicantQualification">
+              <MappingFragment StoreEntitySet="ApplicantQualification">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ApplicantId" ColumnName="ApplicantId" />
+                <ScalarProperty Name="CertificationTypeId" ColumnName="CertificationTypeId" />
+                <ScalarProperty Name="CertificationSpecificId" ColumnName="CertificationSpecificId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationsFields">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.ApplicationsField">
+              <MappingFragment StoreEntitySet="ApplicationsField">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CertificationSpecifics">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.CertificationSpecific">
+              <MappingFragment StoreEntitySet="CertificationSpecific">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CertificationTypeID" ColumnName="CertificationTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CertificationTypes">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.CertificationType">
+              <MappingFragment StoreEntitySet="CertificationType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ArmyTechApplicantModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

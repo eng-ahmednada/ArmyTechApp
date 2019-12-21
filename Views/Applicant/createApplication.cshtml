@@ -1,0 +1,121 @@
+﻿@model ApplicantVM
+@{
+    ViewBag.Title = "Application Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+    <div class="card card0 border-0">
+        <div class="row d-flex">
+            <div class="col-lg-6">
+                <div class="card1 pb-5">
+                    <div class="row"> <img src="~/images/72127195_114254123310054_1520266118948716544_n.jpg" class="logo" /> </div>
+                   
+                    <div class="row px-3 justify-content-center mt-5  border-line"> <img src="https://i.imgur.com/uNGdWHi.png" class="image"> </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                @TempData["error"]
+                <div class="card-body">
+                    <h5 class="card-title text-center">Application Form</h5>
+                    @using (Html.BeginForm())
+            {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="form-group col-6 mt-2">
+                                @Html.LabelFor(a => a.app.Name, "Name*", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(a => a.app.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Your Name" } })
+                                @Html.ValidationMessageFor(a => a.app.Name, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-6 mt-2">
+                                @Html.LabelFor(a => a.app.MobileNo, "Mbile*", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(a => a.app.MobileNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Your Mobile" } })
+                                @Html.ValidationMessageFor(a => a.app.MobileNo, "", new { @class = "text-danger" })
+                            </div>
+   
+                            <div class="form-group col-12 ">
+                                @Html.LabelFor(a => a.app.EMail, "Email*", htmlAttributes: new { @class = "control-label " })
+                                @Html.EditorFor(a => a.app.EMail, new { htmlAttributes = new { @class = "form-control" , placeholder = "Your Email" } })
+                                @Html.ValidationMessageFor(a => a.app.EMail, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-12 ">
+                                @Html.LabelFor(a => a.app.Gender, "Gender", htmlAttributes: new { @class = "control-label " })
+                                @Html.DropDownListFor(a => a.app.GenderId, ViewBag.GenderId as SelectList, new { @class = "form-control " })
+                                @Html.ValidationMessageFor(a => a.app.Gender, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-12 ">
+                                @Html.LabelFor(a => a.app.BirthDate, "Birth Date*", htmlAttributes: new { @class = "control-label", id = "date" })
+                                @Html.TextBoxFor(a => a.app.BirthDate, new { @type = "date",@class="form-control" })
+                                @Html.ValidationMessageFor(a => a.app.BirthDate, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group col-12 ">
+                                @Html.Label("Application Field", new { @class = "control-label" })                               
+                                @foreach (var item in (List<ApplicationsField>)ViewBag.ApplicationsFieldId)
+                                {
+                                    <div class="form-group form-check col-6">
+                                        <input type="checkbox" name="ApplicationsFieldId" id="@item.Name" value="@item.ID" class="form-check-input" />
+                                        <label for="@item.Name" class="form-check-label">@item.Name </label>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="form-group col-12 ">
+                                @Html.Label("Certification Types*", new { @class = "control-label" })
+                                @Html.DropDownListFor(a=>a.appQualif.CertificationTypeId,ViewBag.CertificationTypeId as SelectList,"Choose..",new { @class = "form-control " })
+                                @Html.ValidationMessageFor(a=>a.appQualif.CertificationTypeId, "", new { @class = "text-danger" })
+
+                                <p id="C" form-group col-12 mt-2"></p>
+                            </div>
+
+                            <div class="form-group col-12 ">
+                                @Html.LabelFor(a => a.appQualif.Description, "Description", htmlAttributes: new { @class = "control-label " })
+                                @Html.TextAreaFor(a => a.appQualif.Description, new { htmlAttributes = new { @class = "form-control", placeholder="Description" } })
+                            </div>
+                            <div class="form-group col-12 ">
+                                <button type="submit" class="btn btn-info px-5 m-1" id="btn">Send</button>
+                            </div>
+
+                        </div>
+                       
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="bg-blue py-4">
+            <div class="row px-3">
+                <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2019. All rights reserved.</small>
+                <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $('select[name = "appQualif.CertificationTypeId"] option:first').attr('disabled', true);
+            })
+            $('select[name="appQualif.CertificationTypeId"]').change(function () {
+
+                $.ajax({
+                    url: "../Applicant/getCertificationSpecifics/" + $(this).val(),
+                    type: "GET",
+                    success: function (data) {
+                        $("#C").html(data)
+                    },
+                    error: function (xhr, s, err) {
+                        alert(err)
+                    }
+                })
+            })
+        </script>
+    }

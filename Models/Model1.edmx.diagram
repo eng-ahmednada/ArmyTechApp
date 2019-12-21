@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2a12f3bf78ab439ca1ea90521f778ac4" Name="Diagram1">
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.Applicant" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.ApplicantApplicationsField" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.ApplicantQualification" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.ApplicationsField" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.CertificationSpecific" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.CertificationType" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.Gender" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ArmyTechApplicantModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_Applicant_Gender" ManuallyRouted="false" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_ApplicantApplicationsField_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_ApplicantQualification_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_ApplicantApplicationsField_ApplicationsField" ManuallyRouted="false" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_ApplicantQualification_CertificationSpecific" ManuallyRouted="false" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_ApplicantQualification_CertificationType" ManuallyRouted="false" />
+        <AssociationConnector Association="ArmyTechApplicantModel.FK_CertificationSpecific_CertificationType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
